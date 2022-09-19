@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Руслан Гарипов](https://up.htmlacademy.ru/univer-js1/1/user/2219555).
-* Наставник: `Неизвестно`.
+* Наставник: [Павел Нюкало](https://htmlacademy.ru/profile/nyukalopavel).
 
 ---
 
