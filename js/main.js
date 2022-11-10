@@ -1,3 +1,3 @@
-import {photographies} from './data.js';
+import {bringPicturesLife} from './thumbnail.js';
 
-photographies();
+bringPicturesLife();
