@@ -1,3 +1,4 @@
+import {visualiseBigPicture} from './big-picture.js';
 import {getPhotos} from './data.js';
 
 const getPictureTemplate = ({id, url, comments, likes}) => `<a href="#" class="picture js-picture" data-id="${id}">
@@ -14,6 +15,10 @@ const createPhotosAround = () => mainContainer.insertAdjacentHTML('beforeend', d
 
 const onPictureClick = (evt) => {
   evt.preventDefault();
+  const target = evt.target;
+  const parent = target.closest('.js-picture');
+  const id = +parent.dataset.id;
+  visualiseBigPicture(data[id - 1]);
 };
 
 const bringPicturesLife = () => {
@@ -24,4 +29,4 @@ const bringPicturesLife = () => {
   });
 };
 
-export { bringPicturesLife };
+export {bringPicturesLife};
