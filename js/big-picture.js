@@ -1,13 +1,13 @@
 const fullScreenPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
+const socialComments = document.querySelector('.social__comments');
+const socialComment = document.querySelector('.social__comment');
+const commentsPart = document.createDocumentFragment();
 
 
 const getComments = (comments) => {
-  const socialComments = document.querySelector('.social__comments');
-  const commentsPart = document.createDocumentFragment();
-
   comments.forEach((comment) => {
-    const socialComment = document.querySelector('.social__comment').cloneNode(true);
+    socialComment.cloneNode(true);
     socialComment.querySelector('.social__picture').src = comment.avatar;
     socialComment.querySelector('.social__picture').alt = comment.name;
     socialComment.querySelector('.social__text').textContent = comment.message;
@@ -21,10 +21,6 @@ const getComments = (comments) => {
 const renderPicture = (picture) => {
   fullScreenPicture.querySelector('.social__comment-count').classList.add('hidden');
   fullScreenPicture.querySelector('.comments-loader').classList.add('hidden');
-  fullScreenPicture.querySelector('.big-picture__img img').src = picture.url;
-  fullScreenPicture.querySelector('.likes-count').textContent = picture.likes;
-  fullScreenPicture.querySelector('.social__caption').textContent = picture.description;
-  fullScreenPicture.querySelector('.comments-count').textContent = picture.comments.length;
   getComments(picture.comments);
 };
 

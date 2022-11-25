@@ -17,7 +17,7 @@ const onPictureClick = (evt) => {
   evt.preventDefault();
   const target = evt.target;
   const parent = target.closest('.js-picture');
-  const id = +parent.dataset.id;
+  const id = Number(parent.dataset.id);
   visualiseBigPicture(data[id - 1]);
 };
 

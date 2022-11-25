@@ -29,21 +29,21 @@ const DESCRIPTIONS = [
   'Завтра будет лучше',
 ];
 
-const CreateUserData = (id) => ({
+const createUserData = (id) => ({
   id,
   avatar: `img/avatar-${getRandomInRange(1, AVATAR_QUANTITY)}.svg`,
   message: MESSAGES[getRandomInRange(0, MESSAGES.length - 1)],
   name: NAMES[getRandomInRange(0, NAMES.length - 1)],
 });
 
-const CreatePhotoData = (id) => ({
+const createPhotoData = (id) => ({
   id,
   url: `photos/${id}.jpg`,
   description: DESCRIPTIONS[getRandomInRange(0, DESCRIPTIONS.length - 1)],
   likes: getRandomInRange(MIN_LIKE_QUANTITY, MAX_LIKE_QUANTITY),
-  comments: Array.from({length: getRandomInRange(1, COMMENTS_NUMBER)}).map((value, index) => CreateUserData(index + 1)),
+  comments: Array.from({length: getRandomInRange(1, COMMENTS_NUMBER)}).map((value, index) => createUserData(index + 1)),
 });
 
-const getPhotos = () => Array.from({length: MAX_PHOTOS_QUANTITY}).map((value, index) => CreatePhotoData(index + 1));
+const getPhotos = () => Array.from({length: MAX_PHOTOS_QUANTITY}).map((value, index) => createPhotoData(index + 1));
 
 export {getPhotos};
