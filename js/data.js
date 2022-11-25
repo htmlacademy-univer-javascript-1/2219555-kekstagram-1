@@ -46,4 +46,4 @@ const CreatePhotoData = (id) => ({
 
 const getPhotos = () => Array.from({length: MAX_PHOTOS_QUANTITY}).map((value, index) => CreatePhotoData(index + 1));
 
-export { getPhotos };
+export {getPhotos};
