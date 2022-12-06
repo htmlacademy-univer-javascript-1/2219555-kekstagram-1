@@ -1,32 +1,16 @@
-import {visualiseBigPicture} from './big-picture.js';
-import {getPhotos} from './data.js';
+import { createImageDescriptions } from './data.js';
 
-const getPictureTemplate = ({id, url, comments, likes}) => `<a href="#" class="picture js-picture" data-id="${id}">
-<img class="picture__img" src="${url}" width="182" height="182" alt="Случайная фотография">
-<p class="picture__info">
-  <span class="picture__comments">${comments.length}</span>
-  <span class="picture__likes">${likes}</span>
-</p>
-</a>`;
+export function createUsersPictures(amount) {
+  const userImgDescriptions = createImageDescriptions(amount);
+  const picturesList = document.querySelector('.pictures');
+  const pictureTemplate = document.querySelector('#picture').content;
 
-const data = getPhotos();
-const mainContainer = document.querySelector('.js-pictures');
-const createPhotosAround = () => mainContainer.insertAdjacentHTML('beforeend', data.map((photo) => getPictureTemplate(photo)).join(''));
-
-const onPictureClick = (evt) => {
-  evt.preventDefault();
-  const target = evt.target;
-  const parent = target.closest('.js-picture');
-  const id = Number(parent.dataset.id);
-  visualiseBigPicture(data[id - 1]);
-};
-
-const bringPicturesLife = () => {
-  createPhotosAround();
-  const pictures = document.querySelectorAll('.js-picture');
-  pictures.forEach((picture) => {
-    picture.addEventListener('click', onPictureClick);
+  userImgDescriptions.forEach(({ url, comments, likes }) => {
+    const userPicture = pictureTemplate.cloneNode(true);
+    userPicture.querySelector('.picture__img').src = url;
+    userPicture.querySelector('.picture__comments').textContent = comments.length;
+    userPicture.querySelector('.picture__likes').textContent = likes;
+    picturesList.append(userPicture);
   });
-};
-
-export {bringPicturesLife};
+  return userImgDescriptions;
+}

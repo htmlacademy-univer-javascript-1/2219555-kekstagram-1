@@ -1,6 +1,6 @@
-import { getRandomInRange } from './util.js';
+import { getRandomPositiveInt, getRandomArrayElement } from './util.js';
 
-const MAX_PHOTOS_QUANTITY = 25;
+// const MAX_PHOTOS_QUANTITY = 25;
 const AVATAR_QUANTITY = 6;
 const MIN_LIKE_QUANTITY = 15;
 const MAX_LIKE_QUANTITY = 200;
@@ -11,7 +11,7 @@ const NAMES = [
   'Сергей','Илья','Андрей','Ксения',
   'Фёдор','Влад','Евгений', 'Саша'
 ];
-const MESSAGES = ['Всё отлично!',
+const COMMENTS = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
@@ -29,21 +29,29 @@ const DESCRIPTIONS = [
   'Завтра будет лучше',
 ];
 
-const createUserData = (id) => ({
-  id,
-  avatar: `img/avatar-${getRandomInRange(1, AVATAR_QUANTITY)}.svg`,
-  message: MESSAGES[getRandomInRange(0, MESSAGES.length - 1)],
-  name: NAMES[getRandomInRange(0, NAMES.length - 1)],
-});
+function createRandomComments(amount) {
+  const comments = [];
+  for (let i = 0; i < amount; i++) {
+    comments[i] = {
+      id: i + 100,
+      avatar: `img/avatar-${getRandomPositiveInt(1, AVATAR_QUANTITY)}.svg`,
+      message: getRandomArrayElement(COMMENTS),
+      name: NAMES[getRandomPositiveInt(0, NAMES.length - 1)],
+    };
+  }
+  return comments;
+}
 
-const createPhotoData = (id) => ({
-  id,
-  url: `photos/${id}.jpg`,
-  description: DESCRIPTIONS[getRandomInRange(0, DESCRIPTIONS.length - 1)],
-  likes: getRandomInRange(MIN_LIKE_QUANTITY, MAX_LIKE_QUANTITY),
-  comments: Array.from({length: getRandomInRange(1, COMMENTS_NUMBER)}).map((value, index) => createUserData(index + 1)),
-});
-
-const getPhotos = () => Array.from({length: MAX_PHOTOS_QUANTITY}).map((value, index) => createPhotoData(index + 1));
-
-export {getPhotos};
+export function createImageDescriptions(amount) {
+  const descriptions = [];
+  for (let i = 0; i < amount; i++) {
+    descriptions[i] = {
+      id: i + 1,
+      url: `photos/${i + 1}.jpg`,
+      description: getRandomArrayElement(DESCRIPTIONS),
+      likes: getRandomPositiveInt(MIN_LIKE_QUANTITY, MAX_LIKE_QUANTITY),
+      comments: createRandomComments(COMMENTS_NUMBER)
+    };
+  }
+  return descriptions;
+}

@@ -1,3 +1,3 @@
-import {bringPicturesLife} from './thumbnail.js';
+import { BigPictureHandler } from './bigPicture.js';
 
-bringPicturesLife();
+BigPictureHandler();
