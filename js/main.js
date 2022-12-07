@@ -5,3 +5,4 @@ import './form.js';
 export const body = document.querySelector('body');
 
 BigPictureHandler(createUsersPictures(25));
+
