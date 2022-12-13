@@ -22,7 +22,7 @@ export function createUsersPictures(amount = 25) {
   const userImgDescriptions = createImageDescriptions(amount);
   const fragment = document.createDocumentFragment();
   userImgDescriptions.forEach((userImgDescription) => {
-  createUsersPicture(userImgDescription, fragment);
+    createUsersPicture(userImgDescription, fragment);
   });
   picturesList.append(fragment);
 }
