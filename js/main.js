@@ -1,8 +1,10 @@
-import { BigPictureHandler } from './bigPicture.js';
+import { bigPictureHandler } from './bigPicture.js';
 import { createUsersPictures } from './gallery.js';
 import './form.js';
 
+const usersPictures = 25;
+
 export const body = document.querySelector('body');
 
-BigPictureHandler(createUsersPictures(25));
+bigPictureHandler(createUsersPictures(usersPictures));
 

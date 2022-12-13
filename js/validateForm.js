@@ -8,6 +8,8 @@ const pristine = new Pristine(uploadImageForm, {
 });
 
 const hashtagRegularExp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const maxHashtagLength = 5;
+const maxCommentLength = 140;
 
 function onFocusIgnoreEscKeydown(evt) {
   if (evt.key === 'Escape') {
@@ -23,11 +25,11 @@ function validateHasgtag(value) {
       return false;
     }
   }
-  return hashtags.length <= 5 && hashtags.length === uniqueHashtags.length;
+  return hashtags.length <= maxHashtagLength && hashtags.length === uniqueHashtags.length;
 }
 
 function validateComment(value) {
-  return value.length <= 140;
+  return value.length <= maxCommentLength;
 }
 
 pristine.addValidator(

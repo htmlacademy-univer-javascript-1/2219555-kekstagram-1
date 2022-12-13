@@ -53,7 +53,7 @@ function updateBigPicData(url, description, likes, comments) {
   updateBigPicComments(comments);
 }
 
-export function BigPictureHandler(usersImgDescriptions) {
+export function bigPictureHandler(usersImgDescriptions) {
   const userPictures = document.querySelectorAll('.picture');
   userPictures.forEach((picture, i) => {
     const { url, description, likes, comments } = usersImgDescriptions[i];

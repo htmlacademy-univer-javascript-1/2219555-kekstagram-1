@@ -1,9 +1,10 @@
 import { createImageDescriptions } from './data.js';
 
+const picturesList = document.querySelector('.pictures');
+const pictureTemplate = document.querySelector('#picture').content;
+
 export function createUsersPictures(amount) {
   const userImgDescriptions = createImageDescriptions(amount);
-  const picturesList = document.querySelector('.pictures');
-  const pictureTemplate = document.querySelector('#picture').content;
 
   userImgDescriptions.forEach(({ url, comments, likes }) => {
     const userPicture = pictureTemplate.cloneNode(true);
