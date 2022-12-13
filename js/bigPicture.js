@@ -31,6 +31,7 @@ function bigPicModalClose() {
   currentCommentsCount = 0;
 }
 
+
 const loadComments = (comments) => {
   comments.slice(currentCommentsCount, currentCommentsCount + 5).forEach(({ avatar, message }) => {
     const userComment = commentTemplate.cloneNode(true);
