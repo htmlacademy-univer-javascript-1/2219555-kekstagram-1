@@ -1,3 +1,10 @@
-import {bringPicturesLife} from './thumbnail.js';
+import { bigPictureHandler } from './bigPicture.js';
+import { createUsersPictures } from './gallery.js';
+import './form.js';
 
-bringPicturesLife();
+const usersPictures = 25;
+
+export const body = document.querySelector('body');
+
+bigPictureHandler(createUsersPictures(usersPictures));
+
