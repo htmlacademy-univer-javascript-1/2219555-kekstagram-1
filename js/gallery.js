@@ -1,17 +1,28 @@
+import { bigPicModalOpen, updateBigPicData } from './bigPicture.js';
 import { createImageDescriptions } from './data.js';
 
 const picturesList = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content;
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-export function createUsersPictures(amount) {
+function createUsersPicture(userImgDescription, fragment) {
+  const { url, comments, likes } = userImgDescription;
+  const userPicture = pictureTemplate.cloneNode(true);
+  userPicture.querySelector('.picture__img').src = url;
+  userPicture.querySelector('.picture__comments').textContent = comments.length;
+  userPicture.querySelector('.picture__likes').textContent = likes;
+  fragment.append(userPicture);
+
+  userPicture.onclick = () => {
+    bigPicModalOpen();
+    updateBigPicData(userImgDescription);
+  };
+}
+
+export function createUsersPictures(amount = 25) {
   const userImgDescriptions = createImageDescriptions(amount);
-
-  userImgDescriptions.forEach(({ url, comments, likes }) => {
-    const userPicture = pictureTemplate.cloneNode(true);
-    userPicture.querySelector('.picture__img').src = url;
-    userPicture.querySelector('.picture__comments').textContent = comments.length;
-    userPicture.querySelector('.picture__likes').textContent = likes;
-    picturesList.append(userPicture);
+  const fragment = document.createDocumentFragment();
+  userImgDescriptions.forEach((userImgDescription) => {
+  createUsersPicture(userImgDescription, fragment);
   });
-  return userImgDescriptions;
+  picturesList.append(fragment);
 }
