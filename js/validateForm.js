@@ -1,11 +1,4 @@
-const uploadImageForm = document.querySelector('.img-upload__form');
-const hashtagsInput = uploadImageForm.querySelector('.text__hashtags');
-const commentInput = uploadImageForm.querySelector('.text__description');
-const pristine = new Pristine(uploadImageForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper__error'
-});
+
 
 const hashtagRegularExp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const maxHashtagLength = 5;
@@ -32,22 +25,30 @@ function validateComment(value) {
   return value.length <= maxCommentLength;
 }
 
-pristine.addValidator(
-  hashtagsInput,
-  validateHasgtag,
-  'Максимальная длина тега - 20 символов, максимум тегов, разделенных пробелами - 5.'
-);
+export function validateForm(uploadImageForm, hashtagsInput, commentInput) {
+  const pristine = new Pristine(uploadImageForm, {
+    classTo: 'img-upload__field-wrapper',
+    errorTextParent: 'img-upload__field-wrapper',
+    errorTextClass: 'img-upload__field-wrapper__error'
+  });
 
-pristine.addValidator(
-  commentInput,
-  validateComment,
-  'Длина комментария не должна превышать 140 символов.'
-);
+  pristine.addValidator(
+    hashtagsInput,
+    validateHasgtag,
+    'Максимальная длина тега - 20 символов, максимум тегов, разделенных пробелами - 5.'
+  );
 
-hashtagsInput.onkeydown = onFocusIgnoreEscKeydown;
-commentInput.onkeydown = onFocusIgnoreEscKeydown;
+  pristine.addValidator(
+    commentInput,
+    validateComment,
+    'Длина комментария не должна превышать 140 символов.'
+  );
 
-uploadImageForm.onsubmit = function (evt) {
-  evt.preventDefault();
-  pristine.validate();
-};
+  hashtagsInput.onkeydown = onFocusIgnoreEscKeydown;
+  commentInput.onkeydown = onFocusIgnoreEscKeydown;
+
+  uploadImageForm.onsubmit = function (evt) {
+    evt.preventDefault();
+    pristine.validate();
+  };
+}
