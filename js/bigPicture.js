@@ -10,6 +10,7 @@ const bigPicLikesCount = bigPic.querySelector('.likes-count');
 const bigPicComments = bigPic.querySelector('.social__comments');
 const commentTemplate = bigPicComments.querySelector('.social__comment');
 const cancelButton = bigPic.querySelector('#picture-cancel');
+const comment = 5;
 let currentCommentsCount = 0;
 
 const onBigPicModalEscKeydown = (evt) => {
@@ -33,7 +34,7 @@ function bigPicModalClose() {
 
 
 const loadComments = (comments) => {
-  comments.slice(currentCommentsCount, currentCommentsCount + 5).forEach(({ avatar, message }) => {
+  comments.slice(currentCommentsCount, currentCommentsCount + comment).forEach(({ avatar, message }) => {
     const userComment = commentTemplate.cloneNode(true);
     const userCommentAvatar = userComment.querySelector('img');
     userCommentAvatar.src = avatar;
@@ -43,6 +44,13 @@ const loadComments = (comments) => {
     currentCommentsCount++;
   });
   bigPicCurrentCommentsCount.textContent = currentCommentsCount;
+  if (currentCommentsCount === comments.length) {
+    commentsLoadButton.classList.add('hidden');
+  } else {
+    if (commentsLoadButton.classList.contains('hidden')) {
+      commentsLoadButton.classList.remove('hidden');
+    }
+  }
 };
 
 export function updateBigPicData({ url, description, likes, comments }) {

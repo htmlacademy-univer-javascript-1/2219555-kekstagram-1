@@ -1,5 +1,3 @@
-import { showFilter } from './filterPhotos.js';
-
 function getData(onSuccess, onError) {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
     .then((response) => {
@@ -8,23 +6,15 @@ function getData(onSuccess, onError) {
       }
       throw new Error(`${response.status} ${response.statusText}`);
     })
-    .then((data) => {
-      onSuccess(data);
-      showFilter(data);
-    })
-    .catch((err) => {
-      onError(err);
-    });
+    .then((data) => onSuccess(data))
+    .catch((err) => onError(err));
 }
 
-function sendData(onSuccess, onError, body, unblockSubmitButton) {
+function sendData(onSuccess, onError, body, onFinally) {
   fetch('https://26.javascript.pages.academy/kekstagram',
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      body: body
+      body
     })
     .then((response) => {
       if (response.ok) {
@@ -33,12 +23,9 @@ function sendData(onSuccess, onError, body, unblockSubmitButton) {
         throw new Error;
       }
     })
-    .catch(() => {
-      onError();
-    })
-    .finally(() => {
-      unblockSubmitButton();
-    });
+    .catch(onError)
+    .finally(onFinally);
 }
 
 export { getData, sendData };
+

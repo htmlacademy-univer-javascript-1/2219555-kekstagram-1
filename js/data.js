@@ -1,7 +1,8 @@
 import { getRandomPositiveInt, getRandomArrayElement } from './util.js';
 
 const names = ['Анна', 'Мария', 'София', 'Алиса', 'Ева', 'Виктория',
-  'Иван', 'Дмитрий', 'Никита', 'Александр', 'Игорь', 'Артём'
+  'Иван', 'Дмитрий', 'Никита', 'Александр', 'Игорь', 'Артём',
+  'Владислав', 'Алексей', 'Михаил', 'Тимур', 'Максим'
 ];
 
 const sentences = [
@@ -16,16 +17,23 @@ const pictureDescriptions = [
   'Давайте разбираться: героям были возданы соответствующие почести', 'Господа, кровь стынет в жилах!',
   'Граница обучения кадров одухотворила всех причастных', 'Благородные стремления не спасут: кровь стынет в жилах',
   'Не следует забывать, что младая поросль матереет', 'Выбранный нами инновационный путь обнадёживает',
-  'Прототип нового сервиса — это как звон колоколов', 'Смешно, но герцог графства коронован',
+  'Прототип нового сервиса — это как звон колоколов', 'Я съел деда',
   'Органический трафик попахивает безумием', 'Высококачественный прототип будущего проекта определил дальнейшее развитие'
 ];
+
+const numberFirstAvatar = 1;
+const numberLastAvatar = 6;
+const minLikeNumber = 15;
+const maxLikeNumber = 200;
+const minCommentsNumber = 5;
+const maxCommentsNumber = 15;
 
 function createRandomComments(amount) {
   const comments = [];
   for (let i = 0; i < amount; i++) {
     comments[i] = {
       id: i + 100,
-      avatar: `img/avatar-${getRandomPositiveInt(1, 6)}.svg`,
+      avatar: `img/avatar-${getRandomPositiveInt(numberFirstAvatar, numberLastAvatar)}.svg`,
       message: getRandomArrayElement(sentences),
       name: names[getRandomPositiveInt(0, names.length - 1)],
     };
@@ -40,8 +48,8 @@ export function createImageDescriptions(amount) {
       id: i + 1,
       url: `photos/${i + 1}.jpg`,
       description: getRandomArrayElement(pictureDescriptions),
-      likes: getRandomPositiveInt(15, 200),
-      comments: createRandomComments(getRandomPositiveInt(5, 16))
+      likes: getRandomPositiveInt(minLikeNumber, maxLikeNumber),
+      comments: createRandomComments(getRandomPositiveInt(minCommentsNumber, maxCommentsNumber))
     };
   }
   return descriptions;

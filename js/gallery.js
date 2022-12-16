@@ -22,6 +22,7 @@ function createUsersPictures(userImgDescriptions) {
   userImgDescriptions.forEach((userImgDescription) => {
     createUsersPicture(userImgDescription, fragment);
   });
+
   picturesList.appendChild(fragment);
 }
 

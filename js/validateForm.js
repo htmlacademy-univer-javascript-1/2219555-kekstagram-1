@@ -1,8 +1,6 @@
-
-
 const hashtagRegularExp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-const maxHashtagLength = 5;
-const maxCommentLength = 140;
+const maxLengthHashtag = 5;
+const maxLengthComment = 140;
 
 function onFocusIgnoreEscKeydown(evt) {
   if (evt.key === 'Escape') {
@@ -11,6 +9,9 @@ function onFocusIgnoreEscKeydown(evt) {
 }
 
 function validateHasgtag(value) {
+  if (!value.length) {
+    return true;
+  }
   const hashtags = value.split(' ');
   const uniqueHashtags = [...new Set(hashtags)];
   for (const hashtag of hashtags) {
@@ -18,11 +19,11 @@ function validateHasgtag(value) {
       return false;
     }
   }
-  return hashtags.length <= maxHashtagLength && hashtags.length === uniqueHashtags.length;
+  return hashtags.length <= maxLengthHashtag && hashtags.length === uniqueHashtags.length;
 }
 
 function validateComment(value) {
-  return value.length <= maxCommentLength;
+  return value.length <= maxLengthComment;
 }
 
 function validateForm(form, hashtagsInput, commentInput) {
@@ -35,13 +36,11 @@ function validateForm(form, hashtagsInput, commentInput) {
   pristine.addValidator(
     hashtagsInput,
     validateHasgtag,
-    'Максимальная длина тега - 20 символов, максимум тегов, разделенных пробелами - 5.'
   );
 
   pristine.addValidator(
     commentInput,
     validateComment,
-    'Длина комментария не должна превышать 140 символов.'
   );
 
   return pristine.validate();

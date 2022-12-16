@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import { body } from './main.js';
 import { validateForm, onFocusIgnoreEscKeydown } from './validateForm.js';
+import { successPost, failPost, createPostMessage, removePostMessage } from './apiErrorsHandler.js';
 
 const form = document.querySelector('.img-upload__form');
 const submitButton = form.querySelector('#upload-submit');
@@ -9,7 +10,7 @@ const closeFormButton = form.querySelector('#upload-cancel');
 const scaleSmallerButton = form.querySelector('.scale__control--smaller');
 const scaleBiggerButton = form.querySelector('.scale__control--bigger');
 const scaleControl = form.querySelector('.scale__control--value');
-const preview = form.querySelector('.img-upload__preview');
+const preview = form.querySelector('.img-upload__preview').querySelector('img');
 const formOverlay = form.querySelector('.img-upload__overlay');
 const hashtagsInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
@@ -68,60 +69,17 @@ function resizeImgPreview(limit) {
   }
 }
 
+function setPreviewDefaultStyle() {
+  preview.src = 'img/upload-default-image.jpg';
+  preview.style.filter = 'none';
+  preview.style.transform = 'scale(1)';
+}
+
 const onUploadOverlayEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
     closeUploadOverlay();
   }
 };
-
-const onMessageEscKeydown = (evt, messageBlock, abortController) => {
-  if (evt.key === 'Escape') {
-    removeMessageBlock(messageBlock, abortController);
-  }
-};
-
-const onMessageClickOutside = (evt, messageBlock, isError, abortController) => {
-  if (!evt.target.closest(`.${isError ? 'error' : 'success'}__inner`)) {
-    removeMessageBlock(messageBlock, abortController);
-  }
-};
-
-function removeMessageBlock(messageBlock, abortController) {
-  abortController.abort();
-  document.addEventListener('keydown', onUploadOverlayEscKeydown);
-  body.removeChild(messageBlock);
-}
-
-function createMessageBlock(isError) {
-  document.removeEventListener('keydown', onUploadOverlayEscKeydown);
-  const messageTemplate = document.querySelector(`#${isError ? 'error' : 'success'}`).content.querySelector('section');
-  const message = messageTemplate.cloneNode(true);
-  const button = message.querySelector('button');
-  body.append(message);
-  const abortController = new AbortController();
-  button.onclick = () => removeMessageBlock(message, abortController);
-  message.onclick = (evt) => onMessageClickOutside(evt, message, isError, abortController);
-  document.addEventListener('keydown', (evt) => onMessageEscKeydown(evt, message, abortController), { signal: abortController.signal });
-}
-function createPostMessage() {
-  const messageTemplate = document.querySelector('#messages').content.querySelector('div');
-  const message = messageTemplate.cloneNode(true);
-  body.append(message);
-  return message;
-}
-
-function removePostMessage(message) {
-  body.removeChild(message);
-}
-
-function successPost() {
-  form.reset();
-  createMessageBlock(false);
-}
-
-function failPost() {
-  createMessageBlock(true);
-}
 
 function blockSubmitButton() {
   submitButton.disabled = true;
@@ -149,7 +107,6 @@ function openUploadOverlay() {
   form.addEventListener('change', onUploadOverlayEffectChange);
   scaleSmallerButton.onclick = () => resizeImgPreview('25%');
   scaleBiggerButton.onclick = () => resizeImgPreview('100%');
-  validateForm(form, hashtagsInput, commentInput);
   closeFormButton.onclick = closeUploadOverlay;
   hashtagsInput.onkeydown = commentInput.onkeydown = onFocusIgnoreEscKeydown;
   form.addEventListener('submit', setUploadFormSubmit);
@@ -159,13 +116,14 @@ function closeUploadOverlay() {
   body.classList.remove('modal-open');
   formOverlay.classList.add('hidden');
   form.reset();
-  preview.style.filter = 'none';
+  setPreviewDefaultStyle();
   document.removeEventListener('keydown', onUploadOverlayEscKeydown);
   form.removeEventListener('change', onUploadOverlayEffectChange);
   form.removeEventListener('submit', setUploadFormSubmit);
 }
 
-export function uploadFormHandler() {
+function uploadFormHandler() {
   uploadImgButton.onclick = openUploadOverlay;
 }
 
+export { uploadFormHandler, preview, closeUploadOverlay, onUploadOverlayEscKeydown };
